@@ -1,11 +1,11 @@
 {
-  "name": "ielts-reading-master",
+  "name": "ielts-reading-platform",
   "version": "1.0.0",
-  "description": "Complete IELTS Reading practice platform with 16 question types and Telegram integration",
-  "main": "index.html",
+  "description": "IELTS Reading Practice Platform",
+  "main": "index.js",
   "scripts": {
     "dev": "vercel dev",
-    "start": "serve .",
+    "start": "npx serve public",
     "deploy": "vercel --prod"
   },
   "dependencies": {
@@ -14,17 +14,9 @@
   },
   "devDependencies": {
     "@vercel/node": "^3.0.0",
-    "serve": "^14.2.0",
     "vercel": "^33.0.0"
   },
-  "keywords": [
-    "ielts",
-    "reading",
-    "practice",
-    "english",
-    "education",
-    "telegram"
-  ],
-  "author": "IELTS Reading Master",
-  "license": "MIT"
+  "engines": {
+    "node": "18.x"
+  }
 }
