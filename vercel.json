@@ -1,8 +1,25 @@
 {
-  "functions": {
-    "api/*.js": {
-      "maxDuration": 10
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
     }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "TELEGRAM_BOT_TOKEN": "@telegram-bot-token",
+    "TELEGRAM_CHAT_ID": "@telegram-chat-id",
+    "TELEGRAM_WEBHOOK_SECRET": "@telegram-webhook-secret"
   },
   "headers": [
     {
@@ -22,17 +39,5 @@
         }
       ]
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/public/$1"
-    }
-  ],
-  "installCommand": "npm install",
-  "devCommand": "vercel dev"
+  ]
 }
