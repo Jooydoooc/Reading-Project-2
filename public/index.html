@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Master - Login</title>
+    <link rel="stylesheet" href="styles/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Inline fallback styles */
+        :root {
+            --primary-blue: #1a56db;
+            --primary-green: #0e9f6e;
+            --accent-red: #dc2626;
+            --accent-yellow: #f59e0b;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-section">
+                <i class="fas fa-book-open-reader logo-icon"></i>
+                <h1>IELTS Reading Master</h1>
+                <p class="subtitle">Login to start practicing</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <label for="studentName">
+                        <i class="fas fa-user"></i> Full Name
+                    </label>
+                    <input type="text" id="studentName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="studentClass">
+                        <i class="fas fa-users"></i> Class/Group
+                    </label>
+                    <input type="text" id="studentClass" placeholder="e.g., IELTS Advanced" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Target Band Score</label>
+                    <div class="band-selector">
+                        <button type="button" class="band-btn" data-band="6.0">6.0</button>
+                        <button type="button" class="band-btn active" data-band="7.0">7.0</button>
+                        <button type="button" class="band-btn" data-band="7.5">7.5</button>
+                        <button type="button" class="band-btn" data-band="8.0">8.0</button>
+                        <input type="hidden" id="targetBand" value="7.0">
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Continue to Practice
+                </button>
+                
+                <div class="guest-option">
+                    <button type="button" id="guestLogin" class="guest-btn">
+                        <i class="fas fa-user-clock"></i>
+                        Continue as Guest
+                    </button>
+                </div>
+                
+                <div class="info-note">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Works offline after first login</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simple authentication logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const guestBtn = document.getElementById('guestLogin');
+            
+            // Band selection
+            document.querySelectorAll('.band-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.band-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById('targetBand').value = this.dataset.band;
+                });
+            });
+            
+            // Form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const userData = {
+                    name: document.getElementById('studentName').value.trim(),
+                    class: document.getElementById('studentClass').value.trim(),
+                    targetBand: document.getElementById('targetBand').value,
+                    timestamp: new Date().toISOString(),
+                    userId: 'user_' + Date.now(),
+                    isGuest: false
+                };
+                
+                if (!userData.name || !userData.class) {
+                    alert('Please enter your name and class');
+                    return;
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('ielts_user', JSON.stringify(userData));
+                sessionStorage.setItem('current_user', JSON.stringify(userData));
+                
+                // Redirect to main menu
+                window.location.href = 'main-menu.html';
+            });
+            
+            // Guest login
+            guestBtn.addEventListener('click', function() {
+                const guestUser = {
+                    name: 'Guest Student',
+                    class: 'Guest Class',
+                    targetBand: '7.0',
+                    timestamp: new Date().toISOString(),
+                    userId: 'guest_' + Date.now(),
+                    isGuest: true
+                };
+                
+                localStorage.setItem('ielts_user', JSON.stringify(guestUser));
+                sessionStorage.setItem('current_user', JSON.stringify(guestUser));
+                
+                window.location.href = 'main-menu.html';
+            });
+            
+            // Check if user already exists
+            const savedUser = localStorage.getItem('ielts_user');
+            if (savedUser) {
+                try {
+                    const user = JSON.parse(savedUser);
+                    document.getElementById('studentName').value = user.name || '';
+                    document.getElementById('studentClass').value = user.class || '';
+                    document.getElementById('targetBand').value = user.targetBand || '7.0';
+                    
+                    // Set active band button
+                    document.querySelectorAll('.band-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                        if (btn.dataset.band === user.targetBand) {
+                            btn.classList.add('active');
+                        }
+                    });
+                } catch (e) {
+                    console.log('No saved user found');
+                }
+            }
+        });
+    </script>
+    
+    <!-- Inline CSS for immediate display -->
+    <style>
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-icon {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+        
+        .logo-section h1 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-group input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+        
+        .band-selector {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+        
+        .band-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .band-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        .band-btn:hover:not(.active) {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: #1e40af;
+        }
+        
+        .guest-option {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .guest-btn {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .guest-btn:hover {
+            background: #f0f7ff;
+        }
+        
+        .info-note {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .info-note i {
+            color: var(--primary-blue);
+        }
+        
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 20px;
+            }
+            
+            .band-selector {
+                flex-wrap: wrap;
+            }
+            
+            .band-btn {
+                flex: 0 0 calc(50% - 4px);
+            }
+        }
+    </style>
+</body>
+</html>
