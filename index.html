@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Master - Login</title>
+    <link rel="stylesheet" href="styles/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/icons/ielts-logo.svg">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Background Animation -->
+        <div class="bg-animation">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+        
+        <!-- Left Panel - Welcome -->
+        <div class="welcome-panel">
+            <div class="logo">
+                <i class="fas fa-book-open-reader"></i>
+                <h1>IELTS Reading Master</h1>
+            </div>
+            
+            <div class="welcome-content">
+                <h2>Welcome Back!</h2>
+                <p class="subtitle">Your path to Band 9.0 starts here</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>16+ Question Types Covered</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Instant Telegram Feedback</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Offline Practice Mode</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Progress Analytics</span>
+                    </div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <h3>500+</h3>
+                        <p>Practice Questions</p>
+                    </div>
+                    <div class="stat">
+                        <h3>50+</h3>
+                        <p>Reading Passages</p>
+                    </div>
+                    <div class="stat">
+                        <h3>1000+</h3>
+                        <p>Students Improved</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ielts-info">
+                <p><i class="fas fa-info-circle"></i> Platform follows official IELTS format and standards</p>
+            </div>
+        </div>
+        
+        <!-- Right Panel - Login Form -->
+        <div class="login-panel">
+            <div class="login-form-container">
+                <div class="form-header">
+                    <h2>Student Login</h2>
+                    <p>Enter your details to continue</p>
+                </div>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="input-group">
+                        <label for="studentName">
+                            <i class="fas fa-user"></i> Full Name
+                        </label>
+                        <input type="text" id="studentName" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="studentClass">
+                            <i class="fas fa-users"></i> Class/Group
+                        </label>
+                        <input type="text" id="studentClass" placeholder="e.g., IELTS Advanced 2024" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="targetBand">
+                            <i class="fas fa-bullseye"></i> Target Band Score
+                        </label>
+                        <div class="band-selector">
+                            <div class="band-options">
+                                <button type="button" class="band-option" data-band="6.0">6.0</button>
+                                <button type="button" class="band-option active" data-band="7.0">7.0</button>
+                                <button type="button" class="band-option" data-band="7.5">7.5</button>
+                                <button type="button" class="band-option" data-band="8.0">8.0</button>
+                                <button type="button" class="band-option" data-band="8.5">8.5</button>
+                            </div>
+                            <input type="hidden" id="targetBand" value="7.0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="moduleType">
+                            <i class="fas fa-graduation-cap"></i> IELTS Module
+                        </label>
+                        <div class="module-selector">
+                            <div class="module-options">
+                                <button type="button" class="module-option active" data-module="academic">
+                                    <i class="fas fa-university"></i>
+                                    <span>Academic</span>
+                                </button>
+                                <button type="button" class="module-option" data-module="general">
+                                    <i class="fas fa-briefcase"></i>
+                                    <span>General</span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="moduleType" value="academic" required>
+                        </div>
+                    </div>
+                    
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" checked>
+                        <label for="remember">Remember my details</label>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Continue to Dashboard</span>
+                    </button>
+                    
+                    <div class="divider">
+                        <span>or continue as</span>
+                    </div>
+                    
+                    <button type="button" class="guest-btn" id="guestLogin">
+                        <i class="fas fa-user-clock"></i>
+                        <span>Guest Student</span>
+                    </button>
+                    
+                    <div class="teacher-access">
+                        <p>Are you a teacher? <a href="#" id="teacherLogin">Access teacher dashboard</a></p>
+                    </div>
+                </form>
+                
+                <div class="login-footer">
+                    <p>By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+                    <p class="offline-note">
+                        <i class="fas fa-wifi"></i> Works offline after first login
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Teacher Login Modal -->
+    <div id="teacherModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-chalkboard-teacher"></i> Teacher Access</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="teacherLoginForm">
+                    <div class="input-group">
+                        <label for="teacherEmail">Teacher Email</label>
+                        <input type="email" id="teacherEmail" placeholder="teacher@institution.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="teacherPassword">Password</label>
+                        <input type="password" id="teacherPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Access Teacher Dashboard</button>
+                </form>
+                <div class="telegram-setup">
+                    <h4>Telegram Bot Setup</h4>
+                    <p>Configure your bot to receive student submissions:</p>
+                    <code>Bot Token: Add in Vercel Environment Variables</code>
+                    <code>Chat ID: Your Telegram group ID</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
