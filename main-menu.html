@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Master - Main Menu</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/icons/ielts-logo.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-book-open-reader"></i>
+                    <div>
+                        <h1>IELTS Reading Master</h1>
+                        <p class="nav-subtitle">Practice Platform</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="user-details">
+                        <h3 id="userName">Student Name</h3>
+                        <p id="userClass">Class/Group</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-right">
+                <div class="nav-stats">
+                    <div class="stat">
+                        <span class="stat-label">Target</span>
+                        <span class="stat-value band-score" id="targetBand">7.0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Completed</span>
+                        <span class="stat-value" id="completedTests">0</span>
+                    </div>
+                </div>
+                <button class="nav-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="mainProgressBar"></div>
+            <div class="progress-labels">
+                <span>Band 5.0</span>
+                <span id="progressText">Your Progress</span>
+                <span>Band 9.0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="welcome-card">
+                <div class="welcome-text">
+                    <h2>Welcome back, <span id="greetingName">Student</span>! 👋</h2>
+                    <p>Ready to improve your IELTS Reading score? Choose your practice mode below.</p>
+                </div>
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Today's Goal</h4>
+                            <p>60 minutes practice</p>
+                        </div>
+                    </div>
+                    <div class="quick-stat">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h4>Current Streak</h4>
+                            <p><span id="streakDays">3</span> days</p>
+                        </div>
+                    </div>
+                    <div class="quick-stat">
+                        <i class="fas fa-trophy"></i>
+                        <div>
+                            <h4>Best Score</h4>
+                            <p>Band <span id="bestScore">7.5</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice Modes Grid -->
+        <section class="practice-modes">
+            <h2 class="section-title">Choose Your Practice Mode</h2>
+            <p class="section-subtitle">Select from three comprehensive practice options</p>
+            
+            <div class="modes-grid">
+                <!-- Mode 1: Full Mock Test -->
+                <div class="mode-card full-test-card">
+                    <div class="mode-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="mode-content">
+                        <h3>Full Mock Test</h3>
+                        <p class="mode-description">
+                            Complete IELTS Reading test simulation with 3 passages, 40 questions, and 60-minute timer.
+                            Perfect for final preparation.
+                        </p>
+                        <div class="mode-details">
+                            <div class="detail">
+                                <i class="fas fa-file-alt"></i>
+                                <span>3 Passages</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-question-circle"></i>
+                                <span>40 Questions</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-stopwatch"></i>
+                                <span>60 Minutes</span>
+                            </div>
+                        </div>
+                        <div class="mode-actions">
+                            <button class="mode-btn primary-btn" onclick="startFullTest()">
+                                Start Full Test
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <a href="full-test.html" class="mode-btn secondary-btn">
+                                View Tests
+                                <i class="fas fa-list"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 2: Passage Practice -->
+                <div class="mode-card passage-card">
+                    <div class="mode-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="mode-content">
+                        <h3>Passage Practice</h3>
+                        <p class="mode-description">
+                            Focus on individual reading passages. Practice comprehension skills without time pressure.
+                            Build your reading stamina.
+                        </p>
+                        <div class="mode-details">
+                            <div class="detail">
+                                <i class="fas fa-layer-group"></i>
+                                <span>50+ Passages</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-sliders-h"></i>
+                                <span>Adjustable Difficulty</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Detailed Analytics</span>
+                            </div>
+                        </div>
+                        <div class="mode-actions">
+                            <button class="mode-btn primary-btn" onclick="startPassagePractice()">
+                                Practice Passages
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <a href="passages.html" class="mode-btn secondary-btn">
+                                Browse Library
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 3: Question Type Practice -->
+                <div class="mode-card question-type-card">
+                    <div class="mode-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div class="mode-content">
+                        <h3>Question Type Practice</h3>
+                        <p class="mode-description">
+                            Master all 16 IELTS Reading question types individually. Target your weak areas with
+                            focused practice sessions.
+                        </p>
+                        <div class="mode-details">
+                            <div class="detail">
+                                <i class="fas fa-shapes"></i>
+                                <span>16 Question Types</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-bullseye"></i>
+                                <span>Targeted Practice</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Strategy Guides</span>
+                            </div>
+                        </div>
+                        <div class="mode-actions">
+                            <button class="mode-btn primary-btn" onclick="startQuestionTypePractice()">
+                                Practice by Type
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <a href="question-types.html" class="mode-btn secondary-btn">
+                                View All Types
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Access - Question Types -->
+        <section class="quick-access">
+            <h2 class="section-title">Quick Access - Question Types</h2>
+            <p class="section-subtitle">Jump directly to specific question type practice</p>
+            
+            <div class="question-type-grid" id="quickQuestionTypes">
+                <!-- Question types will be loaded here -->
+            </div>
+            
+            <div class="view-all-container">
+                <a href="question-types.html" class="view-all-btn">
+                    View All 16 Question Types
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="recent-activity">
+            <h2 class="section-title">Recent Activity</h2>
+            
+            <div class="activity-container">
+                <div class="activity-list" id="activityList">
+                    <!-- Activities will be loaded here -->
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Start your first practice session</h4>
+                            <p>Begin with any of the three practice modes above</p>
+                        </div>
+                        <div class="activity-time">
+                            <span>Just now</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity-stats">
+                    <h3>Your Progress Summary</h3>
+                    <div class="progress-chart">
+                        <div class="chart-bar" data-skill="TFNG" data-percent="65"></div>
+                        <div class="chart-bar" data-skill="Matching" data-percent="45"></div>
+                        <div class="chart-bar" data-skill="Multiple Choice" data-percent="78"></div>
+                        <div class="chart-bar" data-skill="Completion" data-percent="82"></div>
+                    </div>
+                    <div class="stats-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Accuracy Rate</span>
+                            <span class="summary-value">72%</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Time per Question</span>
+                            <span class="summary-value">1.2 min</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Weakest Area</span>
+                            <span class="summary-value">Matching Headings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section class="tips-section">
+            <h2 class="section-title">Pro Tips for Success</h2>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <h4>Time Management</h4>
+                    <p>Spend 20 minutes on each passage. Don't spend more than 1.5 minutes on any single question.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>Skimming & Scanning</h4>
+                    <p>Skim for main ideas first, then scan for specific information needed for answers.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h4>Practice Strategy</h4>
+                    <p>Start with question type practice, then passage practice, then full mock tests.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h4>Answer Sheet Practice</h4>
+                    <p>Always practice with the answer sheet to get used to the real test format.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>IELTS Reading Master</h3>
+                <p>Comprehensive IELTS Reading preparation platform with intelligent practice modes and instant feedback.</p>
+                <div class="connection-status">
+                    <span id="connectionStatus">
+                        <i class="fas fa-wifi"></i>
+                        <span>Online</span>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Practice Modes</h3>
+                <ul>
+                    <li><a href="full-test.html">Full Mock Tests</a></li>
+                    <li><a href="passages.html">Passage Practice</a></li>
+                    <li><a href="question-types.html">Question Type Practice</a></li>
+                    <li><a href="#">Progress Analytics</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Vocabulary Builder</a></li>
+                    <li><a href="#">Strategy Guides</a></li>
+                    <li><a href="#">Sample Answers</a></li>
+                    <li><a href="#">Common Mistakes</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Need Help?</h3>
+                <p>Submit your answers via Telegram for teacher feedback.</p>
+                <button class="telegram-help-btn" onclick="openTelegramHelp()">
+                    <i class="fab fa-telegram"></i>
+                    Get Help on Telegram
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 IELTS Reading Master. For educational use only.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#" id="teacherAccessBtn">Teacher Access</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Telegram Help Modal -->
+    <div id="telegramModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fab fa-telegram"></i> Telegram Submission Help</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Your answers are automatically submitted to your class Telegram group when you complete a test.</p>
+                <div class="telegram-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Complete any test or practice</h4>
+                            <p>Your answers are saved automatically</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Click "Submit to Telegram"</h4>
+                            <p>Found at the end of every practice session</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Teacher reviews your answers</h4>
+                            <p>You'll receive feedback in the Telegram group</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="telegram-group">
+                    <h4>Your Telegram Group</h4>
+                    <code>https://t.me/your_ielts_class_group</code>
+                    <p>Join this group to receive feedback from your teacher.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
