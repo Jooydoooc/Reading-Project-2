@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Master - Main Menu</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Inline fallback styles */
+        :root {
+            --primary-blue: #1a56db;
+            --primary-green: #0e9f6e;
+            --accent-red: #dc2626;
+            --accent-yellow: #f59e0b;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        .main-nav {
+            background: white;
+            border-bottom: 3px solid var(--primary-blue);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+        }
+        
+        .logo h1 {
+            font-size: 1.3rem;
+        }
+        
+        .user-info {
+            text-align: center;
+        }
+        
+        .user-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+        
+        .user-info p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .dashboard {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary-blue), #4f46e5);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .welcome-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .practice-modes {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .mode-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border-color: var(--primary-blue);
+        }
+        
+        .mode-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: #f0f7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+        
+        .mode-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .mode-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .mode-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: var(--primary-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .mode-btn:hover {
+            background: #1e40af;
+        }
+        
+        .quick-access {
+            margin-bottom: 40px;
+        }
+        
+        .question-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .question-type-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        
+        .question-type-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            border-color: var(--primary-blue);
+        }
+        
+        .type-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #f0f7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        
+        .type-details h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .type-details p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-section ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+        
+        .footer-section ul li a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .modes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .question-type-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-book-open-reader"></i>
+                <h1>IELTS Reading Master</h1>
+            </a>
+            
+            <div class="user-info">
+                <h3 id="userName">Student</h3>
+                <p id="userClass">Class</p>
+            </div>
+            
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h2>Welcome, <span id="greetingName">Student</span>! 👋</h2>
+            <p>Choose your practice mode below to improve your IELTS Reading score.</p>
+        </section>
+
+        <!-- Practice Modes -->
+        <section class="practice-modes">
+            <h2 class="section-title">Choose Practice Mode</h2>
+            
+            <div class="modes-grid">
+                <!-- Full Mock Test -->
+                <div class="mode-card">
+                    <div class="mode-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="mode-content">
+                        <h3>Full Mock Test</h3>
+                        <p class="mode-description">
+                            Complete IELTS Reading test simulation with 3 passages, 40 questions, and 60-minute timer.
+                        </p>
+                        <button class="mode-btn" onclick="startFullTest()">
+                            <i class="fas fa-play"></i>
+                            Start Full Test
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Passage Practice -->
+                <div class="mode-card">
+                    <div class="mode-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="mode-content">
+                        <h3>Passage Practice</h3>
+                        <p class="mode-description">
+                            Practice individual reading passages without time pressure. Build your comprehension skills.
+                        </p>
+                        <button class="mode-btn" onclick="startPassagePractice()">
+                            <i class="fas fa-book"></i>
+                            Practice Passages
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question Type Practice -->
+                <div class="mode-card">
+                    <div class="mode-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div class="mode-content">
+                        <h3>Question Type Practice</h3>
+                        <p class="mode-description">
+                            Master all 16 IELTS Reading question types individually. Target your weak areas.
+                        </p>
+                        <a href="question-types.html" class="mode-btn">
+                            <i class="fas fa-shapes"></i>
+                            View All Types
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Access -->
+        <section class="quick-access">
+            <h2 class="section-title">Quick Access - Question Types</h2>
+            
+            <div class="question-type-grid" id="questionTypesGrid">
+                <!-- Question types will be loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>IELTS Reading Master</h3>
+                <p>Comprehensive IELTS Reading preparation platform.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Practice Modes</h3>
+                <ul>
+                    <li><a href="#" onclick="startFullTest()">Full Mock Tests</a></li>
+                    <li><a href="#" onclick="startPassagePractice()">Passage Practice</a></li>
+                    <li><a href="question-types.html">Question Types</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Submit answers via Telegram for teacher feedback.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Load user data
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(sessionStorage.getItem('current_user') || localStorage.getItem('ielts_user') || '{}');
+            
+            if (!user.name) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Display user info
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userClass').textContent = user.class || 'Student';
+            document.getElementById('greetingName').textContent = user.name.split(' ')[0];
+            
+            // Load question types
+            loadQuestionTypes();
+        });
+        
+        function loadQuestionTypes() {
+            const questionTypes = [
+                {
+                    id: 'tfng',
+                    name: 'True/False/Not Given',
+                    icon: 'fas fa-toggle-on',
+                    description: 'Identify if information is true, false, or not given'
+                },
+                {
+                    id: 'matching-headings',
+                    name: 'Matching Headings',
+                    icon: 'fas fa-heading',
+                    description: 'Match headings to paragraphs'
+                },
+                {
+                    id: 'multiple-choice',
+                    name: 'Multiple Choice',
+                    icon: 'fas fa-dot-circle',
+                    description: 'Choose correct answer from options'
+                },
+                {
+                    id: 'sentence-completion',
+                    name: 'Sentence Completion',
+                    icon: 'fas fa-comment-alt',
+                    description: 'Complete sentences with words'
+                },
+                {
+                    id: 'summary-completion',
+                    name: 'Summary Completion',
+                    icon: 'fas fa-file-contract',
+                    description: 'Complete summaries of text'
+                },
+                {
+                    id: 'short-answers',
+                    name: 'Short Answers',
+                    icon: 'fas fa-question',
+                    description: 'Answer questions briefly'
+                }
+            ];
+            
+            const grid = document.getElementById('questionTypesGrid');
+            grid.innerHTML = questionTypes.map(type => `
+                <div class="question-type-item" onclick="startQuestionTypePractice('${type.id}')">
+                    <div class="type-icon">
+                        <i class="${type.icon}"></i>
+                    </div>
+                    <div class="type-details">
+                        <h4>${type.name}</h4>
+                        <p>${type.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function startFullTest() {
+            alert('Starting full mock test... (In complete version, this would redirect to test page)');
+            // window.location.href = 'full-test.html';
+        }
+        
+        function startPassagePractice() {
+            alert('Starting passage practice... (In complete version, this would redirect to passages page)');
+            // window.location.href = 'passages.html';
+        }
+        
+        function startQuestionTypePractice(typeId) {
+            const typeName = typeId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            alert(`Starting ${typeName} practice... (In complete version, this would redirect to specific practice)`);
+            // window.location.href = `practice.html?type=${typeId}`;
+        }
+        
+        function logout() {
+            sessionStorage.removeItem('current_user');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
