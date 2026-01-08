@@ -11,13 +11,13 @@ module.exports = async (req, res) => {
         'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
     );
 
-    // Handle OPTIONS request for CORS
+    // Handle OPTIONS request
     if (req.method === 'OPTIONS') {
         res.status(200).end();
         return;
     }
 
-    // Only allow POST requests
+    // Only accept POST requests
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -25,33 +25,34 @@ module.exports = async (req, res) => {
     try {
         const submission = req.body;
         
-        // Validate submission data
-        if (!submission.studentName || !submission.testId) {
+        // Validate required fields
+        if (!submission.studentName || !submission.testType) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
         // Send to Telegram
-        const telegramResponse = await sendToTelegram(submission);
+        const telegramResult = await sendToTelegram(submission);
         
-        // Log the submission (in production, you might want to save to a database)
-        console.log('Submission received:', {
+        // Log the submission
+        console.log('IELTS Submission:', {
             student: submission.studentName,
-            test: submission.testId,
+            type: submission.testType,
+            questionType: submission.questionType || 'full-test',
             timestamp: new Date().toISOString(),
-            answersCount: Object.keys(submission.answers || {}).length
+            answers: Object.keys(submission.answers || {}).length
         });
 
         // Return success response
         return res.status(200).json({
             success: true,
-            message: 'Test submitted successfully',
-            telegramSent: telegramResponse.success,
-            submissionId: Date.now(),
+            message: 'Answers submitted successfully',
+            telegramSent: telegramResult.success,
+            submissionId: `sub_${Date.now()}`,
             timestamp: new Date().toISOString()
         });
 
     } catch (error) {
-        console.error('Error processing submission:', error);
+        console.error('Submission error:', error);
         return res.status(500).json({ 
             error: 'Internal server error',
             details: error.message 
@@ -69,10 +70,8 @@ async function sendToTelegram(submission) {
     }
 
     try {
-        // Format the message for Telegram
         const message = formatTelegramMessage(submission);
         
-        // Send to Telegram
         const response = await axios.post(
             `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
             {
@@ -83,10 +82,13 @@ async function sendToTelegram(submission) {
             }
         );
 
-        return { success: true, messageId: response.data.result.message_id };
+        return { 
+            success: true, 
+            messageId: response.data.result.message_id 
+        };
         
     } catch (error) {
-        console.error('Error sending to Telegram:', error.response?.data || error.message);
+        console.error('Telegram API error:', error.response?.data || error.message);
         return { 
             success: false, 
             error: error.response?.data || error.message 
@@ -97,44 +99,49 @@ async function sendToTelegram(submission) {
 function formatTelegramMessage(submission) {
     const timestamp = new Date(submission.timestamp).toLocaleString();
     const answered = submission.answeredQuestions || Object.keys(submission.answers || {}).length;
-    const total = submission.totalQuestions || 40;
+    const total = submission.totalQuestions || '?';
     
     let message = `
 <b>📚 IELTS READING SUBMISSION</b>
     
 👤 <b>Student:</b> ${submission.studentName}
 📚 <b>Class:</b> ${submission.studentClass || 'Not specified'}
-📝 <b>Test:</b> ${submission.testTitle || `Test ${submission.testId}`}
-⏰ <b>Submitted:</b> ${timestamp}
-⏱️ <b>Time spent:</b> ${Math.floor(submission.timeSpent / 60)}m ${submission.timeSpent % 60}s
-✅ <b>Questions answered:</b> ${answered}/${total}
-
-<b>📊 Summary:</b>
+🎯 <b>Type:</b> ${submission.testType || 'Practice'}
 `;
 
-    // Add answer summary
+    if (submission.questionType) {
+        message += `❓ <b>Question Type:</b> ${submission.questionType}\n`;
+    }
+    
+    message += `
+⏰ <b>Submitted:</b> ${timestamp}
+✅ <b>Questions answered:</b> ${answered}/${total}
+`;
+
     if (submission.answers && Object.keys(submission.answers).length > 0) {
-        message += '\n<b>Answers:</b>\n';
+        message += '\n<b>Answers Summary:</b>\n';
+        
+        // Show first 10 answers
         const answers = Object.entries(submission.answers)
             .sort(([a], [b]) => parseInt(a) - parseInt(b))
-            .slice(0, 20); // Show first 20 answers
+            .slice(0, 10);
         
         answers.forEach(([q, a]) => {
             message += `Q${q}: ${a}  `;
             if (q % 5 === 0) message += '\n';
         });
         
-        if (Object.keys(submission.answers).length > 20) {
-            message += `\n... and ${Object.keys(submission.answers).length - 20} more`;
+        if (Object.keys(submission.answers).length > 10) {
+            message += `\n... and ${Object.keys(submission.answers).length - 10} more answers`;
         }
     }
 
-    // Add flagged questions
     if (submission.flaggedQuestions && submission.flaggedQuestions.length > 0) {
-        message += `\n\n🚩 <b>Flagged for review:</b> ${submission.flaggedQuestions.join(', ')}`;
+        message += `\n\n🚩 <b>Flagged questions:</b> ${submission.flaggedQuestions.join(', ')}`;
     }
 
-    message += `\n\n<i>Submission ID: ${Date.now()}</i>`;
+    message += `\n\n📊 <b>Time spent:</b> ${Math.floor(submission.timeSpent / 60)}m ${submission.timeSpent % 60}s`;
+    message += `\n\n<i>Submission ID: sub_${Date.now()}</i>`;
     
     return message;
 }
